@@ -3,13 +3,29 @@
 # File              : assembler.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 26.06.2022
-# Last Modified Date: 18.07.2022
+# Last Modified Date: 10.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
 
 
-def assemble(NL, EL, alpha_x, alpha_y, beta, g):
+def assemble(NL, EL, epsilon_x, epsilon_y, beta, rho):
+    """
+    Discretizes a rectangular area into finite elements.
+
+    Args:
+        NL: numpy array with the positions of the nodes.
+        EL: numpy array with the node numbers that make up each element.
+        epsilon_x: 
+        epsilon_y: 
+        beta: 
+        rho: Global charge distribution. Numpy array for the charge distribution. 
+             values: 1 charge, 0 no charge.
+
+    Returns:
+        K:
+        b:
+    """
 
     NoN = len(NL[:, 0])
     NoE = len(EL[:, 0])
@@ -18,7 +34,7 @@ def assemble(NL, EL, alpha_x, alpha_y, beta, g):
     b = np.zeros(NoN)
     Me = np.zeros([3, 3])  # M matrix per element
     Te = np.zeros([3, 3])  # T matrix per element
-    ge = np.zeros(3)  # g matrix per element
+    rho_e = np.zeros(3)  # rho matrix per element
 
     for e in range(NoE):
         x21 = NL[EL[e, 1]-1, 0] - NL[EL[e, 0]-1, 0]
@@ -34,15 +50,15 @@ def assemble(NL, EL, alpha_x, alpha_y, beta, g):
         Ae = 0.5*(x21*y31 - x31*y21)
 
         # Evaluation of de Me matrix
-        Me[0, 0] = -(alpha_x[e]*y23**2 + alpha_y[e]*x32**2)/(4*Ae)
-        Me[0, 1] = -(alpha_x[e]*y23*y31 + alpha_y[e]*x32*x13)/(4*Ae)
+        Me[0, 0] = -(epsilon_x[e]*y23**2 + epsilon_y[e]*x32**2)/(4*Ae)
+        Me[0, 1] = -(epsilon_x[e]*y23*y31 + epsilon_y[e]*x32*x13)/(4*Ae)
         Me[1, 0] = Me[0, 1]
-        Me[0, 2] = -(alpha_x[e]*y23*y12 + alpha_y[e]*x32*x21)/(4*Ae)
+        Me[0, 2] = -(epsilon_x[e]*y23*y12 + epsilon_y[e]*x32*x21)/(4*Ae)
         Me[2, 0] = Me[0, 2]
-        Me[1, 1] = -(alpha_x[e]*y31**2 + alpha_y[e]*x13**2)/(4*Ae)
-        Me[1, 2] = -(alpha_x[e]*y31*y12 + alpha_y[e]*x13*x21)/(4*Ae)
+        Me[1, 1] = -(epsilon_x[e]*y31**2 + epsilon_y[e]*x13**2)/(4*Ae)
+        Me[1, 2] = -(epsilon_x[e]*y31*y12 + epsilon_y[e]*x13*x21)/(4*Ae)
         Me[2, 1] = Me[1, 2]
-        Me[2, 2] = -(alpha_x[e]*y12**2 + alpha_y[e]*x21**2)/(4*Ae)
+        Me[2, 2] = -(epsilon_x[e]*y12**2 + epsilon_y[e]*x21**2)/(4*Ae)
 
         # Evaluation of de M matrix
         Te[0, 0] = beta[e]*Ae/6
@@ -59,9 +75,9 @@ def assemble(NL, EL, alpha_x, alpha_y, beta, g):
         Ke = Me + Te
 
         # Evaluation of vector g
-        ge[0] = g[EL[e][0]-1]*Ae/3
-        ge[1] = g[EL[e][1]-1]*Ae/3
-        ge[2] = g[EL[e][2]-1]*Ae/3
+        rho_e[0] = rho[EL[e][0]-1]*Ae/3
+        rho_e[1] = rho[EL[e][1]-1]*Ae/3
+        rho_e[2] = rho[EL[e][2]-1]*Ae/3
 
         for i in range(3):
             for j in range(3):
