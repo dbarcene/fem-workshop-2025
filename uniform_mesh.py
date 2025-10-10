@@ -2,7 +2,7 @@
 # File              : uniform_mesh.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 10.06.2022
-# Last Modified Date: 27.09.2025
+# Last Modified Date: 10.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 
@@ -11,7 +11,7 @@ import numpy as np
 
 def uniform_mesh(d1, d2, p, m, element_type='2DQU4N'):
     """
-    Devides a rectangular area into finite elements.
+    Discretizes a rectangular area into finite elements.
 
     Args:
         d1: distance in the horizontal direction
