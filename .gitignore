@@ -1,4 +1,6 @@
 *.un~
 *.pdf
 .bak
-.ipynb_checkpoints/
+.ipynb_checkpoints/*
+./modules/__pycache__/*
+./modules/solver.py

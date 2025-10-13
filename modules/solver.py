@@ -1,55 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# File              : assembler.py
+# File              : solver.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
-# Date              : 26.06.2022
-# Last Modified Date: 12.10.2025
+# Date              : 19.07.2022
+# Last Modified Date: 19.07.2022
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
 
 
 def assemble(NL, EL, alpha_x, alpha_y, beta, g):
-    """
-    Assembles the matrix system for the general form of the Poisson ecuation
-    already discretized into finite elements.
 
-    THIS EXAMPLE ONLY USES TRIANGULAR FINITE ELEMENTS in a homogeneous pattern.
-    Coarsed meshes of triangular and quadrilateral elements are not implemented.
+    NoN = len(NL[:, 0])
+    NoE = len(EL[:, 0])
 
-    Args:
-        NL: numpy array with the positions of the nodes.
-        EL: numpy array with the node numbers that make up each element.
-        alpha_x: Constant linear argument in the x direction for anisotropic
-            medium. This argumetn multiplies the derivative in the x direction.
-            Hiher order anisotropic functions are not implemented in this
-            example.
-        alpha_y: Constant linear argument in the y direction for anisotropic
-            medium. This argumetn multiplies the derivative in the x direction.
-            Hiher order anisotropic functions are not implemented in this
-            example.
-        beta: Constant argument that multiplies the primary unknown cuantity.
-            For simple problems this argument is zero.
-    Returns:
-        K: Assembled system matrix of dimensions [NoN, NoN], where NoN is the
-            Number of Nodes in the system.
-        b: Assembled system result vector of dimensions [NoN, 1], where NoN is
-            the Number of Nodes in the system.
-    """
-
-    NoN = len(NL[:, 0])  # Number of Nodes
-    NoE = len(EL[:, 0])  # Number of Elements
-
-    K = np.zeros([NoN, NoN])
-    b = np.zeros(NoN)
     Me = np.zeros([3, 3])  # M matrix per element
     Te = np.zeros([3, 3])  # T matrix per element
     ge = np.zeros(3)  # g matrix per element
 
     for e in range(NoE):
-        x21 = NL[EL[e, 1]-1, 0] - NL[EL[e, 0]-1, 0]  # x2 -x1
-        x31 = NL[EL[e, 2]-1, 0] - NL[EL[e, 0]-1, 0]  # x3 -x1
-        x32 = NL[EL[e, 2]-1, 0] - NL[EL[e, 1]-1, 0]  # x3 -x2
+        x21 = NL[EL[e, 1]-1, 0] - NL[EL[e, 0]-1, 0]
+        x31 = NL[EL[e, 2]-1, 0] - NL[EL[e, 0]-1, 0]
+        x32 = NL[EL[e, 2]-1, 0] - NL[EL[e, 1]-1, 0]
         x13 = NL[EL[e, 0]-1, 0] - NL[EL[e, 2]-1, 0]
         y12 = NL[EL[e, 0]-1, 1] - NL[EL[e, 1]-1, 1]
         y21 = NL[EL[e, 1]-1, 1] - NL[EL[e, 0]-1, 1]
