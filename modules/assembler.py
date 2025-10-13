@@ -18,8 +18,8 @@ def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
     Coarsed meshes of triangular and quadrilateral elements are not implemented.
 
     Args:
-        NL: numpy array with the positions of the nodes.
-        EL: numpy array with the node numbers that make up each element.
+        NL: Numpy array with the positions of the nodes.
+        EL: Numpy array with the node numbers that make up each element.
         alpha_x: Constant linear argument in the x direction for anisotropic
             medium. This argumetn multiplies the derivative in the x direction.
             Hiher order anisotropic functions are not implemented in this
@@ -30,6 +30,7 @@ def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
             example.
         beta: Constant argument or scalar function that multiplies the primary unknown cuantity.
             For simple problems this argument is zero.
+        g: Numpy array with the positions of the sources.
     Returns:
         K: Assembled system matrix of dimensions [NoN, NoN], where NoN is the
             Number of Nodes in the system.
@@ -43,8 +44,10 @@ def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
     K = np.zeros([NoN, NoN])
     b = np.zeros(NoN)
     Me = np.zeros([3, 3])  # M matrix per element
-    Te = np.zeros([3, 3])  # T matrix per element
     ge = np.zeros(3)  # g matrix per element
+
+    if beta != 0:
+        Te = np.zeros([3, 3])  # T matrix per element
 
     for e in range(NoE):
         x21 = NL[EL[e, 1]-1, 0] - NL[EL[e, 0]-1, 0]  # x2 -x1
@@ -70,7 +73,7 @@ def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
         Me[2, 1] = Me[1, 2]
         Me[2, 2] = -(alpha_x[e]*y12**2 + alpha_y[e]*x21**2)/(4*Ae)
 
-    if beta != 0:
+    if Te:
         # Evaluation of de M matrix
         Te[0, 0] = beta[e]*Ae/6
         Te[0, 1] = beta[e]*Ae/12
