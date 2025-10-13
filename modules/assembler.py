@@ -9,7 +9,7 @@
 import numpy as np
 
 
-def assemble(NL, EL, alpha_x, alpha_y, beta, g):
+def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
     """
     Assembles the matrix system for the general form of the Poisson ecuation
     already discretized into finite elements.
@@ -28,7 +28,7 @@ def assemble(NL, EL, alpha_x, alpha_y, beta, g):
             medium. This argumetn multiplies the derivative in the x direction.
             Hiher order anisotropic functions are not implemented in this
             example.
-        beta: Constant argument that multiplies the primary unknown cuantity.
+        beta: Constant argument or scalar function that multiplies the primary unknown cuantity.
             For simple problems this argument is zero.
     Returns:
         K: Assembled system matrix of dimensions [NoN, NoN], where NoN is the
@@ -70,28 +70,31 @@ def assemble(NL, EL, alpha_x, alpha_y, beta, g):
         Me[2, 1] = Me[1, 2]
         Me[2, 2] = -(alpha_x[e]*y12**2 + alpha_y[e]*x21**2)/(4*Ae)
 
+    if beta != 0:
         # Evaluation of de M matrix
         Te[0, 0] = beta[e]*Ae/6
         Te[0, 1] = beta[e]*Ae/12
-        Te[1, 0] = beta[e]*Ae/12
         Te[0, 2] = beta[e]*Ae/12
-        Te[2, 0] = beta[e]*Ae/12
+        Te[1, 0] = beta[e]*Ae/12
         Te[1, 1] = beta[e]*Ae/6
         Te[1, 2] = beta[e]*Ae/12
+        Te[2, 0] = beta[e]*Ae/12
         Te[2, 1] = beta[e]*Ae/12
         Te[2, 2] = beta[e]*Ae/6
 
         # Me + Te = Kij
         Ke = Me + Te
+    else:
+        Ke = Me
 
-        # Evaluation of vector g
-        ge[0] = g[EL[e][0]-1]*Ae/3
-        ge[1] = g[EL[e][1]-1]*Ae/3
-        ge[2] = g[EL[e][2]-1]*Ae/3
+    # Evaluation of vector g
+    ge[0] = g[EL[e][0]-1]*Ae/3
+    ge[1] = g[EL[e][1]-1]*Ae/3
+    ge[2] = g[EL[e][2]-1]*Ae/3
 
-        for i in range(3):
-            for j in range(3):
-                K[EL[e, i]-1, EL[e, j]-1] = K[EL[e, i]-1, EL[e, j]-1] + Ke[i, j]
+    for i in range(3):
+        for j in range(3):
+            K[EL[e, i]-1, EL[e, j]-1] = K[EL[e, i]-1, EL[e, j]-1] + Ke[i, j]
 
             b[EL[e, i]-1] = b[EL[e, i]-1] + ge[i]
 
