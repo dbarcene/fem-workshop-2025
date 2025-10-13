@@ -4,4 +4,4 @@
 .ipynb_checkpoints/*
 ./modules/__pycache__/*
 ./modules/solver.py
-modules/__pycache__/
+./notebooks/,ipynb_checkpoints/*
