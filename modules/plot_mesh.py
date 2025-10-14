@@ -3,7 +3,7 @@
 # File              : plot_mesh.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 10.06.2022
-# Last Modified Date: 26.09.2025
+# Last Modified Date: 14.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
@@ -18,15 +18,13 @@ plt.rc('xtick', labelsize=12)
 plt.rc('ytick', labelsize=12)
 plt.rc('legend', fontsize=12)
 
-print(
-    "This program draws "
-)
+print("This program plots a uniform mesh of tiangular or quadrilateral finite elements\n")
 
 d1 = 1
 d2 = 1
-p = int(input("p:"))
-m = int(input("m:"))
-choose = int(input("Choose element_type\n"
+p = int(input("Input the number of elements in the x direction:"))
+m = int(input("Input the number of elements in the y direction:"))
+choose = int(input("Input the number for the element_type you want to select:\n"
                    "1. 2DQU4N\n"
                    "2. 2DTR3N\n"
                    "elemnt_type: "))
