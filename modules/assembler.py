@@ -3,7 +3,7 @@
 # File              : assembler.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 26.06.2022
-# Last Modified Date: 13.10.2025
+# Last Modified Date: 16.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
@@ -28,8 +28,8 @@ def assemble(NL, EL, alpha_x, alpha_y, g, beta=0):
             medium. This argumetn multiplies the derivative in the x direction.
             Hiher order anisotropic functions are not implemented in this
             example.
-        beta: Constant argument or scalar function that multiplies the primary unknown cuantity.
-            For simple problems this argument is zero.
+        beta: Constant argument or scalar function that multiplies the primary
+            unknown cuantity. For simple problems this argument is zero.
         g: Numpy array with the positions of the sources.
     Returns:
         K: Assembled system matrix of dimensions [NoN, NoN], where NoN is the

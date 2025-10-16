@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from uniform_mesh import uniform_mesh
 
-plt.rcParams['text.usetex'] = True  # Render pyplot text as LaTeX
+# plt.rcParams['text.usetex'] = True  # Uncomment to render pyplot text as LaTeX
 plt.rc('figure', titlesize=18)
 plt.rc('axes', titlesize=15)
 plt.rc('axes', labelsize=15)
