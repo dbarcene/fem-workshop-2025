@@ -3,7 +3,7 @@
 # File              : plot_mesh.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 10.06.2022
-# Last Modified Date: 15.10.2025
+# Last Modified Date: 16.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
@@ -18,7 +18,8 @@ plt.rc('xtick', labelsize=12)
 plt.rc('ytick', labelsize=12)
 plt.rc('legend', fontsize=12)
 
-print("This program plots a uniform mesh of tiangular or quadrilateral finite elements\n")
+print('This program plots a uniform mesh of tiangular or quadrilateral finite\n\
+    elements\n')
 
 d1 = 1
 d2 = 1
