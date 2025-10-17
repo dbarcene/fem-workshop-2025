@@ -2,7 +2,7 @@
 # File              : uniform_mesh.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 10.06.2022
-# Last Modified Date: 12.10.2025
+# Last Modified Date: 16.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 
@@ -18,7 +18,9 @@ def uniform_mesh(d1, d2, p, m, element_type='2DTR3N'):
         d2: distance in the vertical direction
         p: number of elements in the horizontal direction
         m: number of elements in the vertical direction
-        element_type: triangular '2DTR3N' (default value), or cuadrilateral '2DQU4N'.
+        element_type: triangular '2DTR3N' (default value), or cuadrilateral
+        '2DQU4N'.
+
     Returns:
         NL: numpy array with the positions of the nodes.
         EL: numpy array with the node numbers that make up each element.
