@@ -3,7 +3,7 @@
 # File              : bmp2rho.py
 # Author            : David Barcene <david.barcene@utp.ac.pa>
 # Date              : 12.07.2022
-# Last Modified Date: 20.07.2022
+# Last Modified Date: 22.10.2025
 # Last Modified By  : David Barcene <david.barcene@utp.ac.pa>
 
 import numpy as np
